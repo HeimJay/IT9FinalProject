@@ -5,12 +5,15 @@
     {{-- MAIN CONTENT --}}
     <div class="container-fluid p-4" style="background-color: #E8F5E9; border-radius: 10px;">
         {{-- HEADER --}}
-        <div class="row align-items-center justify-content-between mb-3" style="background-color: #C8E6C9; border-radius: 10px; padding: 10px;">
+        <div class="row align-items-center justify-content-between mb-3"
+            style="background-color: #C8E6C9; border-radius: 10px; padding: 10px;">
             <div class="col-6">
                 <h4 class="text-dark">Address</h4>
             </div>
             <div class="col-3">
-                <button type="button"  class="btn w-100 text-white" style="background-color:rgb(1, 110, 34); border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#addMunModal">
+                <button type="button" class="btn w-100 text-white"
+                    style="background-color:rgb(1, 110, 34); border-radius: 10px;" data-bs-toggle="modal"
+                    data-bs-target="#addMunModal">
                     Add Municipality
                 </button>
             </div>
@@ -23,12 +26,15 @@
         <div class="row mt-3 mb-3">
             <div class="col-md-9 col-sm-8">
                 <div class="input-group" style="border-radius: 10px; overflow: hidden;">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search Municipality" style="border-radius: 0; border: none;">
-                    <button class="btn" id="clearSearch" style="background-color: #b3e6cc; color: black; border: none;">Cancel</button>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search Municipality"
+                        style="border-radius: 0; border: none;">
+                    <button class="btn" id="clearSearch"
+                        style="background-color: #b3e6cc; color: black; border: none;">Cancel</button>
                 </div>
             </div>
             <div class="col-md-3 col-sm-4 text-end">
-                <button id="sortButton" class="btn btn-primary w-100" onclick="toggleSort()" style="background-color: #4CAF50; color: white; border-radius: 10px;">
+                <button id="sortButton" class="btn btn-primary w-100" onclick="toggleSort()"
+                    style="background-color: #4CAF50; color: white; border-radius: 10px;">
                     Sort Municipality <span id="sortArrow">↑</span>
                 </button>
             </div>
@@ -50,16 +56,17 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            @foreach($data as $row)
+                            @foreach ($data as $row)
                                 <tr>
-                                    
+
                                     <td>{{ $row->mun_name }}</td>
                                     <td>{{ $row->region }}</td>
                                     <td>{{ $row->MunToBrgy->groupBy('id')->count() }}</td>
                                     <td>{{ $row->MunToBrgy->flatMap->BrgyToSubd->groupBy('id')->count() }}</td>
                                     <td>{{ $row->MunToHhold->flatMap->HholdToCit->groupBy('id')->count() }}</td>
                                     <td>
-                                        <a href="{{ route('municipality.show', $row->id) }}" class="btn btn-success btn-sm" style="background-color:rgb(34, 62, 219); color: white; border-radius: 5px;">
+                                        <a href="{{ route('municipality.show', $row->id) }}" class="btn btn-success btn-sm"
+                                            style="background-color:rgb(34, 62, 219); color: white; border-radius: 5px;">
                                             View
                                         </a>
                                     </td>
@@ -76,23 +83,28 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addMunModalLabel">Add Household:</h1>
+                    <h1 class="modal-title fs-5" id="addMunModalLabel">Add Municipality:</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{route('municipality.store')}}" method="post">
+                <form action="{{ route('municipality.store') }}" method="post">
                     @csrf
-                    <div class="modal-body"> 
-                    
+                    <div class="modal-body">
+
                         {{-- For Input Form --}}
                         <div class="row justify-content-center mt-5">
                             <div class="col col-8">
-                                <label for="munName"><h4>Municipal Name:</h4></label> <br>
-                                <input type="text" name="munName" class="form-control" value="{{old('munName')}}">
+                                <label for="munName">
+                                    <h4>Municipal Name:</h4>
+                                </label> <br>
+                                <input type="text" name="munName" class="form-control" value="{{ old('munName') }}"
+                                    placeholder="Ex. Davao City">
                                 @error('munName')
-                                    <div class="mt-1 text-center" style="background-color: rgb(255, 100, 100); border-radius:10px;">{{$message}}</div>
+                                    <div class="mt-1 text-center"
+                                        style="background-color: rgb(255, 100, 100); border-radius:10px;">{{ $message }}
+                                    </div>
                                     <script>
-                                        document.addEventListener('DOMContentLoaded', function(){
+                                        document.addEventListener('DOMContentLoaded', function() {
                                             var crDocModal = new bootstrap.Modal(document.getElementById('addMunModal'));
                                             crDocModal.show();
                                         })
@@ -102,12 +114,17 @@
                         </div>
                         <div class="row justify-content-center mt-2">
                             <div class="col col-8">
-                                <label for="region"><h4>Region:</h4></label> <br>
-                                <input type="text" name="region" class="form-control" value="{{old('region')}}">
+                                <label for="region">
+                                    <h4>Region:</h4>
+                                </label> <br>
+                                <input type="text" name="region" class="form-control" value="{{ old('region') }}"
+                                    placeholder="Ex. I, II, III...">
                                 @error('region')
-                                    <div class="mt-1 text-center" style="background-color: rgb(255, 100, 100); border-radius:10px;">{{$message}}</div>
+                                    <div class="mt-1 text-center"
+                                        style="background-color: rgb(255, 100, 100); border-radius:10px;">{{ $message }}
+                                    </div>
                                     <script>
-                                        document.addEventListener('DOMContentLoaded', function(){
+                                        document.addEventListener('DOMContentLoaded', function() {
                                             var crDocModal = new bootstrap.Modal(document.getElementById('addMunModal'));
                                             crDocModal.show();
                                         })
@@ -115,12 +132,12 @@
                                 @enderror
                             </div>
                         </div>
-                    
+
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success "><h5>Add</h5></button>
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal"><h5>Close</h5></button>
+                        <button type="submit" class="btn btn-success fs-5">Add</button>
+                        <button type="button" class="btn btn-dark fs-5" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
 
@@ -157,7 +174,7 @@
         }
 
         // Search Functionality
-        document.getElementById('searchInput').addEventListener('input', function () {
+        document.getElementById('searchInput').addEventListener('input', function() {
             const filter = this.value.toLowerCase();
             const rows = document.querySelectorAll("#tableBody tr");
 
@@ -172,7 +189,7 @@
         });
 
         // Clear Search
-        document.getElementById('clearSearch').addEventListener('click', function () {
+        document.getElementById('clearSearch').addEventListener('click', function() {
             const searchInput = document.getElementById('searchInput');
             searchInput.value = '';
             searchInput.dispatchEvent(new Event('input')); // Trigger the input event to reset the table
